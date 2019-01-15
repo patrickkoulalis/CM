@@ -1,0 +1,15 @@
+type User {
+  id: ID! @unique
+  name: String!
+  email: String!
+}
+
+type Case {
+  id: ID! @unique
+  caseId: String!
+  caseStatus: String!
+  assigned: String!
+  priority: String!
+  patient: String!
+  notes: String!
+}

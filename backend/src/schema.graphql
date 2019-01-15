@@ -1,0 +1,11 @@
+
+# import * from './generated/prisma.graphql'
+
+type Mutation {
+	createCase(id: ID!, caseId: String, caseStatus: String, assigned: String, priority: String, patient: String): Case!
+}
+
+type Query {
+	cases: [Case]!
+	case(where: CaseWhereUniqueInput!): Case
+}
