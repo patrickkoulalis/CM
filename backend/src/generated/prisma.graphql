@@ -1,5 +1,5 @@
 # source: https://us1.prisma.sh/patrick-koulalis/case-managment/dev
-# timestamp: Mon Jan 14 2019 21:23:27 GMT-0500 (EST)
+# timestamp: Thu Jan 17 2019 13:24:45 GMT-0500 (EST)
 
 type AggregateCase {
   count: Int!
@@ -17,11 +17,10 @@ type BatchPayload {
 type Case implements Node {
   id: ID!
   caseId: String!
-  caseStatus: String!
   assigned: String!
   priority: String!
   patient: String!
-  notes: String!
+  status: String!
 }
 
 """A connection to a list of items."""
@@ -36,11 +35,10 @@ type CaseConnection {
 
 input CaseCreateInput {
   caseId: String!
-  caseStatus: String!
   assigned: String!
   priority: String!
   patient: String!
-  notes: String!
+  status: String!
 }
 
 """An edge in a connection."""
@@ -57,16 +55,14 @@ enum CaseOrderByInput {
   id_DESC
   caseId_ASC
   caseId_DESC
-  caseStatus_ASC
-  caseStatus_DESC
   assigned_ASC
   assigned_DESC
   priority_ASC
   priority_DESC
   patient_ASC
   patient_DESC
-  notes_ASC
-  notes_DESC
+  status_ASC
+  status_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
@@ -76,11 +72,10 @@ enum CaseOrderByInput {
 type CasePreviousValues {
   id: ID!
   caseId: String!
-  caseStatus: String!
   assigned: String!
   priority: String!
   patient: String!
-  notes: String!
+  status: String!
 }
 
 type CaseSubscriptionPayload {
@@ -124,20 +119,18 @@ input CaseSubscriptionWhereInput {
 
 input CaseUpdateInput {
   caseId: String
-  caseStatus: String
   assigned: String
   priority: String
   patient: String
-  notes: String
+  status: String
 }
 
 input CaseUpdateManyMutationInput {
   caseId: String
-  caseStatus: String
   assigned: String
   priority: String
   patient: String
-  notes: String
+  status: String
 }
 
 input CaseWhereInput {
@@ -229,46 +222,6 @@ input CaseWhereInput {
 
   """All values not ending with the given string."""
   caseId_not_ends_with: String
-  caseStatus: String
-
-  """All values that are not equal to given value."""
-  caseStatus_not: String
-
-  """All values that are contained in given list."""
-  caseStatus_in: [String!]
-
-  """All values that are not contained in given list."""
-  caseStatus_not_in: [String!]
-
-  """All values less than the given value."""
-  caseStatus_lt: String
-
-  """All values less than or equal the given value."""
-  caseStatus_lte: String
-
-  """All values greater than the given value."""
-  caseStatus_gt: String
-
-  """All values greater than or equal the given value."""
-  caseStatus_gte: String
-
-  """All values containing the given string."""
-  caseStatus_contains: String
-
-  """All values not containing the given string."""
-  caseStatus_not_contains: String
-
-  """All values starting with the given string."""
-  caseStatus_starts_with: String
-
-  """All values not starting with the given string."""
-  caseStatus_not_starts_with: String
-
-  """All values ending with the given string."""
-  caseStatus_ends_with: String
-
-  """All values not ending with the given string."""
-  caseStatus_not_ends_with: String
   assigned: String
 
   """All values that are not equal to given value."""
@@ -389,46 +342,46 @@ input CaseWhereInput {
 
   """All values not ending with the given string."""
   patient_not_ends_with: String
-  notes: String
+  status: String
 
   """All values that are not equal to given value."""
-  notes_not: String
+  status_not: String
 
   """All values that are contained in given list."""
-  notes_in: [String!]
+  status_in: [String!]
 
   """All values that are not contained in given list."""
-  notes_not_in: [String!]
+  status_not_in: [String!]
 
   """All values less than the given value."""
-  notes_lt: String
+  status_lt: String
 
   """All values less than or equal the given value."""
-  notes_lte: String
+  status_lte: String
 
   """All values greater than the given value."""
-  notes_gt: String
+  status_gt: String
 
   """All values greater than or equal the given value."""
-  notes_gte: String
+  status_gte: String
 
   """All values containing the given string."""
-  notes_contains: String
+  status_contains: String
 
   """All values not containing the given string."""
-  notes_not_contains: String
+  status_not_contains: String
 
   """All values starting with the given string."""
-  notes_starts_with: String
+  status_starts_with: String
 
   """All values not starting with the given string."""
-  notes_not_starts_with: String
+  status_not_starts_with: String
 
   """All values ending with the given string."""
-  notes_ends_with: String
+  status_ends_with: String
 
   """All values not ending with the given string."""
-  notes_not_ends_with: String
+  status_not_ends_with: String
 }
 
 input CaseWhereUniqueInput {
@@ -483,6 +436,15 @@ type PageInfo {
   endCursor: String
 }
 
+enum Permission {
+  ADMIN
+  USER
+  ITEMCREATE
+  ITEMUPDATE
+  ITEMDELETE
+  PERMISSIONUPDATE
+}
+
 type Query {
   users(where: UserWhereInput, orderBy: UserOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [User]!
   cases(where: CaseWhereInput, orderBy: CaseOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): [Case]!
@@ -507,6 +469,10 @@ type User implements Node {
   id: ID!
   name: String!
   email: String!
+  password: String!
+  resetToken: String
+  resetTokenExpiry: Float
+  permissions: [Permission!]!
 }
 
 """A connection to a list of items."""
@@ -522,6 +488,14 @@ type UserConnection {
 input UserCreateInput {
   name: String!
   email: String!
+  password: String!
+  resetToken: String
+  resetTokenExpiry: Float
+  permissions: UserCreatepermissionsInput
+}
+
+input UserCreatepermissionsInput {
+  set: [Permission!]
 }
 
 """An edge in a connection."""
@@ -540,6 +514,12 @@ enum UserOrderByInput {
   name_DESC
   email_ASC
   email_DESC
+  password_ASC
+  password_DESC
+  resetToken_ASC
+  resetToken_DESC
+  resetTokenExpiry_ASC
+  resetTokenExpiry_DESC
   updatedAt_ASC
   updatedAt_DESC
   createdAt_ASC
@@ -550,6 +530,10 @@ type UserPreviousValues {
   id: ID!
   name: String!
   email: String!
+  password: String!
+  resetToken: String
+  resetTokenExpiry: Float
+  permissions: [Permission!]!
 }
 
 type UserSubscriptionPayload {
@@ -594,11 +578,23 @@ input UserSubscriptionWhereInput {
 input UserUpdateInput {
   name: String
   email: String
+  password: String
+  resetToken: String
+  resetTokenExpiry: Float
+  permissions: UserUpdatepermissionsInput
 }
 
 input UserUpdateManyMutationInput {
   name: String
   email: String
+  password: String
+  resetToken: String
+  resetTokenExpiry: Float
+  permissions: UserUpdatepermissionsInput
+}
+
+input UserUpdatepermissionsInput {
+  set: [Permission!]
 }
 
 input UserWhereInput {
@@ -730,8 +726,111 @@ input UserWhereInput {
 
   """All values not ending with the given string."""
   email_not_ends_with: String
+  password: String
+
+  """All values that are not equal to given value."""
+  password_not: String
+
+  """All values that are contained in given list."""
+  password_in: [String!]
+
+  """All values that are not contained in given list."""
+  password_not_in: [String!]
+
+  """All values less than the given value."""
+  password_lt: String
+
+  """All values less than or equal the given value."""
+  password_lte: String
+
+  """All values greater than the given value."""
+  password_gt: String
+
+  """All values greater than or equal the given value."""
+  password_gte: String
+
+  """All values containing the given string."""
+  password_contains: String
+
+  """All values not containing the given string."""
+  password_not_contains: String
+
+  """All values starting with the given string."""
+  password_starts_with: String
+
+  """All values not starting with the given string."""
+  password_not_starts_with: String
+
+  """All values ending with the given string."""
+  password_ends_with: String
+
+  """All values not ending with the given string."""
+  password_not_ends_with: String
+  resetToken: String
+
+  """All values that are not equal to given value."""
+  resetToken_not: String
+
+  """All values that are contained in given list."""
+  resetToken_in: [String!]
+
+  """All values that are not contained in given list."""
+  resetToken_not_in: [String!]
+
+  """All values less than the given value."""
+  resetToken_lt: String
+
+  """All values less than or equal the given value."""
+  resetToken_lte: String
+
+  """All values greater than the given value."""
+  resetToken_gt: String
+
+  """All values greater than or equal the given value."""
+  resetToken_gte: String
+
+  """All values containing the given string."""
+  resetToken_contains: String
+
+  """All values not containing the given string."""
+  resetToken_not_contains: String
+
+  """All values starting with the given string."""
+  resetToken_starts_with: String
+
+  """All values not starting with the given string."""
+  resetToken_not_starts_with: String
+
+  """All values ending with the given string."""
+  resetToken_ends_with: String
+
+  """All values not ending with the given string."""
+  resetToken_not_ends_with: String
+  resetTokenExpiry: Float
+
+  """All values that are not equal to given value."""
+  resetTokenExpiry_not: Float
+
+  """All values that are contained in given list."""
+  resetTokenExpiry_in: [Float!]
+
+  """All values that are not contained in given list."""
+  resetTokenExpiry_not_in: [Float!]
+
+  """All values less than the given value."""
+  resetTokenExpiry_lt: Float
+
+  """All values less than or equal the given value."""
+  resetTokenExpiry_lte: Float
+
+  """All values greater than the given value."""
+  resetTokenExpiry_gt: Float
+
+  """All values greater than or equal the given value."""
+  resetTokenExpiry_gte: Float
 }
 
 input UserWhereUniqueInput {
   id: ID
+  email: String
 }

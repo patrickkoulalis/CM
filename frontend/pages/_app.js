@@ -3,6 +3,21 @@ import App, { Container } from 'next/app';
 import { ApolloProvider } from 'react-apollo';
 import withApolloClient from '../lib/with-apollo-client';
 import Page from '../components/Page';
+import Router from 'next/router';
+import NProgress from 'nprogress';
+import Meta from '../components/Meta';
+
+Router.events.on('routeChangeStart', () => {
+  NProgress.start();
+});
+
+Router.events.on('routeChangeComplete', () => {
+  NProgress.done();
+});
+
+Router.events.on('routeChangeError', () => {
+  NProgress.done();
+});
 
 class ControlApp extends App {
   // App State
@@ -40,6 +55,8 @@ class ControlApp extends App {
       <Container>
         <ApolloProvider client={apollo}>
           <Page>
+            <Meta />
+            <div className="bar" />
             <Component {...pageProps} {...this.methods} {...this.state} />
           </Page>
         </ApolloProvider>

@@ -1,11 +1,13 @@
-
 # import * from './generated/prisma.graphql'
 
 type Mutation {
-	createCase(id: ID!, caseId: String, caseStatus: String, assigned: String, priority: String, patient: String): Case!
+	createCase(caseId: String, assigned: String, priority: String, patient: String, status: String): Case!
+	deleteCase(id: ID!): Case
+	signup(email: String!, password: String!, name: String!): User!
 }
 
 type Query {
-	cases: [Case]!
+	cases(where: CaseWhereInput, orderBy: CaseOrderByInput, skip: Int, first: Int): [Case]!
 	case(where: CaseWhereUniqueInput!): Case
+	casesConnection(where: CaseWhereInput, orderBy: CaseOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CaseConnection!
 }

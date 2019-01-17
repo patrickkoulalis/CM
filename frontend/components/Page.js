@@ -1,25 +1,18 @@
 import React, { Component } from 'react';
 import styled, { ThemeProvider, injectGlobal } from 'styled-components';
 import Link from 'next/link';
+import Header from '../components/Header';
 
 class Page extends Component {
   render() {
     return (
       <ThemeProvider theme={theme}>
-        <Inner>
-          <>
-            <div>
-              <Link href="/" passHref>
-                <a>Home</a>
-              </Link>
-              <br />
-              <Link href="/new-case" passHref>
-                <a>Submit a Case</a>
-              </Link>
-            </div>
+        <div>
+          <Header />
+          <Inner>
             <div>{this.props.children}</div>
-          </>
-        </Inner>
+          </Inner>
+        </div>
       </ThemeProvider>
     );
   }
@@ -47,8 +40,10 @@ injectGlobal`
 
 const Inner = styled.div`
   margin: 0 auto;
-  max-width: 1280px;
+  max-width: 90vw;
   padding: 0 10px;
+  /* display: grid;
+  grid-template-columns: 1fr 4fr; */
 `;
 
 export default Page;

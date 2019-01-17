@@ -2,7 +2,7 @@ import React from 'react';
 import styled from 'styled-components';
 import Link from 'next/link';
 import Button from './Button';
-import CaseNote from '../components/CaseNote';
+import CaseNote from './CaseComments';
 
 class CaseRow extends React.Component {
   render() {
@@ -13,7 +13,7 @@ class CaseRow extends React.Component {
           <p>Case ID: {details.caseId}</p>
           <p>Date Created: {details.createdAt}</p>
           <p>Assigned: {details.assigned}</p>
-          <p>Status: {details.caseStatus}</p>
+          <p>Status: {details.status}</p>
           <p>Patient: {details.patient}</p>
           <p>Priority: {details.priority}</p>
         </Wrap>
