@@ -29,7 +29,6 @@ class UserSignup extends Component {
 
   handleChange = e => {
     const { type, name, value } = e.target;
-    console.log('changed!');
     this.setState({ [name]: value });
   };
 
@@ -47,7 +46,7 @@ class UserSignup extends Component {
                 this.setState({ name: '', email: '', password: '' });
               }}
             >
-              <Error error={error} />;
+              <Error error={error} />
               <fieldset disabled={loading} aria-busy={loading}>
                 <label htmlFor="name">
                   <input

@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Link from 'next/link';
 import Meta from '../components/Meta';
 import styled from 'styled-components';
+import User from './User';
 
 class Header extends Component {
   render() {
@@ -9,6 +10,12 @@ class Header extends Component {
       <div>
         <Meta />
         <TopBar>
+          <User>
+            {({ data: { me } }) => {
+              if (me) return <p>{me.name}</p>;
+              return null;
+            }}
+          </User>
           <Link href="/" passHref>
             <a>Home</a>
           </Link>

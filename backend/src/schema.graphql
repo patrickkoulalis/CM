@@ -10,4 +10,5 @@ type Query {
 	cases(where: CaseWhereInput, orderBy: CaseOrderByInput, skip: Int, first: Int): [Case]!
 	case(where: CaseWhereUniqueInput!): Case
 	casesConnection(where: CaseWhereInput, orderBy: CaseOrderByInput, skip: Int, after: String, before: String, first: Int, last: Int): CaseConnection!
+	me: User
 }
